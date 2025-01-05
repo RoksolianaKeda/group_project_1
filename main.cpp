@@ -1,92 +1,50 @@
 #include <iostream>
-#include <cmath>
-using namespace std;
+#include "calculator.h"
 
-int main()
-{
-    while (true)
-    {
-        double num1, num2;
-        int operation;
+extern void runTests();
 
-        // Display operation menu
-        cout << "\nPlease enter your operation from the list below:\n";
-        cout << "1: Sum\n2: Subtraction\n3: Multiplication\n4: Division\n5: Square Root\n6: EXIT\n-> ";
+int main() {
+    runTests();
 
-        // Validate operation input
-        while (!(cin >> operation) || (operation < 1 || operation > 6))
-        {
-            cout << "Invalid input. Please enter a number between 1 and 6: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    double num1, num2;
+    int operation;
+
+    std::cout << "\nPlease enter your operation from the list below:\n";
+    std::cout << "1: Sum\n2: Subtraction\n3: Multiplication\n4: Division\n5: Square Root\n6: EXIT\n-> ";
+    std::cin >> operation;
+    if (operation == 6) return 0;
+
+    std::cout << "\nPlease enter the first number.\n-> ";
+    std::cin >> num1;
+
+    if (operation == 5) {
+        if (num1 < 0) {
+            std::cout << "\nSquare root of a negative number is not allowed.\n";
         }
-
-        // Exit if user chooses 6
-        if (operation == 6)
-        {
-            return 0;
-        }
-
-        // Get and validate the first number
-        cout << "\nPlease enter the first number.\n-> ";
-        while (!(cin >> num1))
-        {
-            cout << "Invalid input. Please enter a valid number: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-
-        // Square root operation
-        if (operation == 5)
-        {
-            // Validate for negative numbers
-            if (num1 < 0)
-            {
-                cout << "\nSquare root of a negative number is not allowed.\n";
-            }
-            else
-            {
-                cout << "\nResult: " << sqrt(num1) << endl;
-            }
-        }
-        else
-        {
-            // Get and validate the second number for other operations
-            cout << "\nPlease enter the second number.\n ";
-            while (!(cin >> num2))
-            {
-                cout << "Invalid input. Please enter a valid number: ";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-
-            // Perform operation
-            switch (operation)
-            {
-            case 1:
-                cout << "\nResult: " << num1 + num2 << endl;
-                break;
-            case 2:
-                cout << "\nResult: " << num1 - num2 << endl;
-                break;
-            case 3:
-                cout << "\nResult: " << num1 * num2 << endl;
-                break;
-            case 4:
-                // Check for division by zero
-                if (num2 == 0)
-                {
-                    cout << "\nDivision by zero is not allowed.\n";
-                }
-                else
-                {
-                    cout << "\nResult: " << num1 / num2 << endl;
-                }
-                break;
-            default:
-                cout << "\nInvalid operation.\n";
-                break;
-            }
+        else {
+            std::cout << "\nResult: " << squareRoot(num1) << std::endl;
         }
     }
+    else {
+        std::cout << "\nPlease enter the second number.\n-> ";
+        std::cin >> num2;
+
+        switch (operation) {
+        case 1: std::cout << "\nResult: " << add(num1, num2) << std::endl; break;
+        case 2: std::cout << "\nResult: " << subtract(num1, num2) << std::endl; break;
+        case 3: std::cout << "\nResult: " << multiply(num1, num2) << std::endl; break;
+        case 4:
+            if (num2 != 0) {
+                std::cout << "\nResult: " << divide(num1, num2) << std::endl;
+            }
+            else {
+                std::cout << "\nDivision by zero is not allowed.\n";
+            }
+            break;
+        default: std::cout << "\nInvalid operation.\n"; break;
+        }
+    }
+    return 0;
 }
+
+
